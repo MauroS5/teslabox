@@ -204,7 +204,7 @@ New: TeslaBox can also run [TeslaMate.](https://github.com/adriankumpf/teslamate
   # To enable telegram notification, enter this
   Environment="TELEGRAM_ACCESS_TOKEN=***"
 
-  # If your run other projects, like Tesla Android, change the port number to avoid conflict
+  # If your run other projects using port 80, change the following port number to avoid conflict
   Environment="ADMIN_PORT=80"
 
   Type=simple
