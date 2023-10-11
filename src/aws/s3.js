@@ -38,17 +38,18 @@ exports.start = (cb) => {
         secretAccessKey: settings.secretAccessKey,
       },
       region: settings.region,
+      maxAttempts: 1,
     });
   } else {
     // This is where an S3-compatible endpoint is used
-    log.info(`[custom/s3] client will use a S3 compatible cloud provider...`);
+    log.info(`[custom/s3] client will use your own S3 compatible cloud provider...`);
     client = new S3Client({
       credentials: {
         accessKeyId: settings.accessKeyId,
         secretAccessKey: settings.secretAccessKey,
       },
       region: settings.region,
-    maxAttempts: 1,
+      maxAttempts: 1,
       endpoint: settings.endpoint, // custom S3 endpoint
       forcePathStyle: true, // Use path-style addressing
     });
