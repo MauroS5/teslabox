@@ -149,11 +149,11 @@
       <script>
       const element = document.querySelector('a[target="upgrade"]')
       element.addEventListener('click', (event) => {
-        if (confirm('Are you sure? This will take 1 minute and restart')) {
+        if (confirm('Are you sure? This will need 2 minutes and will start over')) {
           event.target.innerHTML = '[<i class="bi bi-arrow-repeat"></i> Upgrading...]'
           setTimeout(() => {
             location.href = '/'
-          }, 60000)
+          }, 120000)
           return true
         } else {
           event.preventDefault()

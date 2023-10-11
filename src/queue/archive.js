@@ -157,18 +157,20 @@ exports.start = (cb) => {
               _.each(scenes, (scene) => {
                 if (input.hwVersion === 4 && scene.angle === 'front') {
                   command += `[${scene.key}]scale=1448:938 [v${scene.key}]; `
-                } else {
-                  command += `[${scene.key}]null [v${scene.key}]; `
                 }
               })
 
               _.each(scenes, (scene) => {
-                command += `[v${scene.key}]`
+                if (input.hwVersion === 4 && scene.angle === 'front') {
+                  command += `[v${scene.key}]`
+                } else {
+                  command += `[${scene.key}]`
+                }
               })
 
               const heightDelta = input.hwVersion === 4 ? -22 : 0
 
-              command += `concat=n=${scenes.length}:v=1 [all]; [all]drawtext=fontfile='${settings.fontFile}':fontcolor=${settings.fontColor}:fontsize=25:borderw=1:bordercolor=${settings.borderColor}@1.0:x=38:y=${930 + heightDelta}:text='TeslaBox ${input.carName.replace(/'/g, '\\')} ${_.upperFirst(input.event.type)} %{pts\\:localtime\\:${timestampSeconds}}' [video]; [video][icon]overlay=8:${928 + heightDelta}" -preset ${settings.preset} -crf ${crf} ${input.files[timestamp]}`
+              command += `concat=n=${scenes.length}:v=1 [all]; [all]drawtext=fontfile='${settings.fontFile}':fontcolor=${settings.fontColor}:fontsize=25:borderw=1:bordercolor=${settings.borderColor}@1.0:x=38:y=${930 + heightDelta}:text='TeslaBox ${input.carName.replace(/'/g, '\\')} ${_.upperFirst(input.event.type)} %{pts\\:localtime\\:${timestampSeconds}}' [video]; [video][icon]overlay=8:${928 + heightDelta}" -preset ${settings.preset} -r 24 -crf ${crf} ${input.files[timestamp]}`
 
               log.debug(`[queue/archive] ${input.id} processing: ${command}`)
               exec(command, (err) => {
@@ -329,7 +331,7 @@ exports.start = (cb) => {
         })
       }
     ], (err) => {
-      if (err === true || err?.code === 'NetworkingError' || err?.retryable) {
+      if (err === true || input.step === 5) {
         log.warn(`[queue/archive] ${input.id} failed: no connection`)
       } else {
         _.each(input.tempFiles, (file) => {

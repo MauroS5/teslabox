@@ -57,19 +57,21 @@ exports.start = (cb) => {
           case 'highest':
           case 'high':
             width = input.hwVersion === 4 ? 1186 : 1024
-            command = `ffmpeg -y -hide_banner -loglevel error -i ${settings.iconFile} -i ${input.tempFile} -filter_complex "[0]scale=18:18 [icon]; [1]scale=${width}:768,drawtext=fontfile='${settings.fontFile}':fontcolor=${settings.fontColor}:fontsize=14:borderw=1:bordercolor=${settings.borderColor}@1.0:x=25:y=750:text='TeslaBox ${input.carName.replace(/'/g, '\\')} \(${_.upperFirst(input.angle)}\) %{pts\\:localtime\\:${input.timestamp}}' [video]; [video][icon]overlay=5:747" -preset ${settings.preset} -crf ${crf} ${input.file}`
+            command = `ffmpeg -y -hide_banner -loglevel error -i ${settings.iconFile} -i ${input.tempFile} -filter_complex "[0]scale=18:18 [icon]; [1]scale=${width}:768,drawtext=fontfile='${settings.fontFile}':fontcolor=${settings.fontColor}:fontsize=14:borderw=1:bordercolor=${settings.borderColor}@1.0:x=25:y=750:text='TeslaBox ${input.carName.replace(/'/g, '\\')} \(${_.upperFirst(input.angle)}\) %{pts\\:localtime\\:${input.timestamp}}' [video]; [video][icon]overlay=5:747"`
             break
 
           case 'low':
           case 'lowest':
             width = input.hwVersion === 4 ? 370 : 320
-            command = `ffmpeg -y -hide_banner -loglevel error -i ${settings.iconFile} -i ${input.tempFile} -filter_complex "[0]scale=12:12 [icon]; [1]scale=${width}:240,drawtext=fontfile='${settings.fontFile}':fontcolor=${settings.fontColor}:fontsize=9:borderw=1:bordercolor=${settings.borderColor}@1.0:x=19:y=228:text='TeslaBox ${input.carName.replace(/'/g, '\\')} \(${_.upperFirst(input.angle)}\) %{pts\\:localtime\\:${input.timestamp}}' [video]; [video][icon]overlay=5:227" -preset ${settings.preset} -crf ${crf} ${input.file}`
+            command = `ffmpeg -y -hide_banner -loglevel error -i ${settings.iconFile} -i ${input.tempFile} -filter_complex "[0]scale=12:12 [icon]; [1]scale=${width}:240,drawtext=fontfile='${settings.fontFile}':fontcolor=${settings.fontColor}:fontsize=9:borderw=1:bordercolor=${settings.borderColor}@1.0:x=19:y=228:text='TeslaBox ${input.carName.replace(/'/g, '\\')} \(${_.upperFirst(input.angle)}\) %{pts\\:localtime\\:${input.timestamp}}' [video]; [video][icon]overlay=5:227"`
             break
 
           default:
             width = input.hwVersion === 4 ? 742 : 640
-            command = `ffmpeg -y -hide_banner -loglevel error -i ${settings.iconFile} -i ${input.tempFile} -filter_complex "[0]scale=15:15 [icon]; [1]scale=${width}:480,drawtext=fontfile='${settings.fontFile}':fontcolor=${settings.fontColor}:fontsize=12:borderw=1:bordercolor=${settings.borderColor}@1.0:x=22:y=465:text='TeslaBox ${input.carName.replace(/'/g, '\\')} \(${_.upperFirst(input.angle)}\) %{pts\\:localtime\\:${input.timestamp}}' [video]; [video][icon]overlay=5:462" -preset ${settings.preset} -crf ${crf} ${input.file}`
+            command = `ffmpeg -y -hide_banner -loglevel error -i ${settings.iconFile} -i ${input.tempFile} -filter_complex "[0]scale=15:15 [icon]; [1]scale=${width}:480,drawtext=fontfile='${settings.fontFile}':fontcolor=${settings.fontColor}:fontsize=12:borderw=1:bordercolor=${settings.borderColor}@1.0:x=22:y=465:text='TeslaBox ${input.carName.replace(/'/g, '\\')} \(${_.upperFirst(input.angle)}\) %{pts\\:localtime\\:${input.timestamp}}' [video]; [video][icon]overlay=5:462"`
         }
+
+        command += ` -preset ${settings.preset} -crf ${crf} -r 24 ${input.file}`
 
         log.debug(`[queue/stream] ${input.id} processing: ${command}`)
 
@@ -128,7 +130,7 @@ exports.start = (cb) => {
         })
       }
     ], (err) => {
-      if (err === true || err?.code === 'NetworkingError' || err?.retryable) {
+      if (err === true || input.step === 3) {
         log.warn(`[queue/stream] ${input.id} stalled: no connection`)
       } else {
         fs.rm(input.tempFile, () => {})

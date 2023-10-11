@@ -1,11 +1,8 @@
 const log = require("../log");
 
-const {
-  S3Client,
-  GetObjectCommand,
-  PutObjectCommand,
-} = require("@aws-sdk/client-s3");
-const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const { S3Client, GetObjectCommand } = require('@aws-sdk/client-s3')
+const { Upload } = require('@aws-sdk/lib-storage')
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner')
 
 const settings = {
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -51,6 +48,7 @@ exports.start = (cb) => {
         secretAccessKey: settings.secretAccessKey,
       },
       region: settings.region,
+    maxAttempts: 1,
       endpoint: settings.endpoint, // custom S3 endpoint
       forcePathStyle: true, // Use path-style addressing
     });
@@ -77,11 +75,23 @@ exports.putObject = (
     ContentType,
   };
 
-  client
-    .send(new PutObjectCommand(params))
-    .then((data) => cb(null, data))
-    .catch((err) => cb(err));
-};
+  const upload = new Upload({
+    client,
+    params,
+  })
+
+  upload.on('httpUploadProgress', (progress) => {
+    log.debug(`[aws/s3] ${Key} progress: ${((progress.loaded / progress.total) * 100).toFixed(2)}%`)
+  })
+
+  upload.done()
+  .then((data) => {
+    cb(null, data)
+  })
+  .catch((err) => {
+    cb(err)
+  })
+}
 
 exports.getSignedUrl = (Key, expiresIn, cb) => {
   cb = cb || function () {};
