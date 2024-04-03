@@ -8,7 +8,7 @@ Open-source version of [teslarpi.com](https://www.teslarpi.com).
 
 New: Cinematic sentry mode, see [here](https://twitter.com/mluggy/status/1628439817460584454) and [here.](https://twitter.com/mluggy/status/1627949202100690945)
 
-![image](https://cdn.teslarpi.com/assets/img/teslabox-full.gif)
+<img src="https://cdn.teslarpi.com/assets/img/teslabox-full.gif" />
 
 ## Hardware requirments
 
