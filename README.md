@@ -6,9 +6,7 @@ Open-source version of [teslarpi.com](https://www.teslarpi.com).
 2. Unmetered live-stream while in park or driving
 3. Backup all events and streams to S3
 
-New: Cinematic sentry mode, see [here](https://twitter.com/mluggy/status/1628439817460584454) and [here.](https://twitter.com/mluggy/status/1627949202100690945)
-
-<img src="https://cdn.teslarpi.com/assets/img/teslabox-full.gif" />
+    <img src="help/sample.gif" alt="sample video"/>
 
 ## Hardware requirments
 
@@ -92,18 +90,18 @@ New: Cinematic sentry mode, see [here](https://twitter.com/mluggy/status/1628439
    - Check "Eject media when finished"
    - Click SAVE
 
-![image](https://cdn.teslarpi.com/assets/img/pi_image_settings.png)
+        ![image](help/rpi_custom.png)
 
-1. Click WRITE and wait for the process to complete and verify
-2. Eject the SD card, insert to your Raspberry Pi and boot it up
-3. SSH to the hostname you have setup with the credentials you chose (i.e ssh <pi@model3.local>)
-4. Switch to root:
+5. Click WRITE and wait for the process to complete and verify
+6. Eject the SD card, insert to your Raspberry Pi and boot it up
+7. SSH to the hostname you have setup with the credentials you chose (i.e ssh <pi@model3.local>)
+8. Switch to root:
 
     ```bash
     sudo -i
     ```
 
-5. Run these commands:
+9. Run these commands:
 
     ```bash
     echo dtoverlay=dwc2 >> /boot/firmware/config.txt
@@ -113,9 +111,9 @@ New: Cinematic sentry mode, see [here](https://twitter.com/mluggy/status/1628439
     sed -i 's/rootwait/rootwait modules-load=dwc2/g' /boot/firmware/cmdline.txt
     ```
 
-6. Setup other Wifi(s) with using ```nmtui``` (if you will use other than the one you setup when burning the SD)
+10. Setup other Wifi(s) with using ```nmtui``` (if you will use other than the one you setup when burning the SD)
 
-7. Allocate USB space with all available storage (minus 10GB, or more if you plan on using TeslaMate):
+11. Allocate USB space with all available storage (minus 10GB, or more if you plan on using TeslaMate):
 
     ```bash
     mkdir -p /mnt/usb
@@ -126,33 +124,33 @@ New: Cinematic sentry mode, see [here](https://twitter.com/mluggy/status/1628439
     echo "options g_mass_storage file=/usb.bin removable=1 ro=0 stall=0 iSerialNumber=123456" > /etc/modprobe.    g_mass_storage.conf
     ```
 
-8. Allocate RAM drive with 80% of available memory:
+12. Allocate RAM drive with 80% of available memory:
 
     ```bash
     echo "tmpfs /mnt/ram tmpfs nodev,nosuid,size=80% 0 0" >> /etc/fstab
     ```
 
-9. Update system packages, upgrade and install required software:
+13. Update system packages, upgrade and install required software:
 
-   ```bash
-   curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-   apt update && apt upgrade -y
-   apt install -y nodejs ffmpeg
-   sed -i 's/exit 0//g' /etc/rc.local
-   echo "/usr/sbin/modprobe g_mass_storage >> /var/log/syslog 2>&1" >> /etc/rc.local
-   echo "exit 0" >> /etc/rc.local
-   ```
+    ```bash
+    curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+    apt update && apt upgrade -y
+    apt install -y nodejs ffmpeg
+    sed -i 's/exit 0//g' /etc/rc.local
+    echo "/usr/sbin/modprobe g_mass_storage >> /var/log/syslog 2>&1" >> /etc/rc.local
+    echo "exit 0" >> /etc/rc.local
+    ```
 
-10. Install Tailscale and click the authorize link to add this machine to your network. If you get an error, reboot the box, run ```sudo -i`` and try this step again.
+14. Install Tailscale and click the authorize link to add this machine to your network. If you get an error, reboot the box, run ```sudo -i`` and try this step again.
 
     ```bash
     curl -fsSL https://tailscale.com/install.sh | sh
     tailscale up
     ```
 
-11. To avoid connectivity issues after running Teslabox for a long time, "Disable key expiry" on each device in your Tailscale network (thanks @genadyo)
+15. To avoid connectivity issues after running Teslabox for a long time, "Disable key expiry" on each device in your Tailscale network (thanks @genadyo)
 
-12. Download and install TeslaBox and packages:
+16. Download and install TeslaBox and packages:
 
     ```bash
     cd /root
@@ -166,7 +164,7 @@ New: Cinematic sentry mode, see [here](https://twitter.com/mluggy/status/1628439
     npm prune
     ```
 
-13. Finalize the TeslaBox service:
+17. Finalize the TeslaBox service:
 
     - First, create the service file:
 
