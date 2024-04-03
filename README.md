@@ -22,7 +22,7 @@ New: TeslaBox can also run [TeslaMate.](https://github.com/adriankumpf/teslamate
 ## Software installation
 
 ### Amazon Web Services (required for archiving)
-1. <a href="https://aws.amazon.com/" target="_blank">Create an account or sign in to AWS</a>
+1. <a href="https://aws.amazon.com/" target="_blank">Create an account or sign in to AWS</a>. You may skip these steps is you are planning to use other S3 bucket or provider. 
 2. <a href="https://s3.console.aws.amazon.com/s3/buckets" target="_blank">Create a new S3 bucket:</a>
    - Bucket name: however you'd like (must be globally unique)
    - AWS region: either us-east-1 or the one closest to you
@@ -107,35 +107,8 @@ New: TeslaBox can also run [TeslaMate.](https://github.com/adriankumpf/teslamate
   sed -i 's/fsck.repair=yes/fsck.repair=no/g' /boot/cmdline.txt
   sed -i 's/rootwait/rootwait modules-load=dwc2/g' /boot/cmdline.txt
   ```
-10. Add one or more WiFi networks with increasing priority:
-  - First, edit your WiFi configuration file:
-  ```
-  nano /etc/wpa_supplicant/wpa_supplicant.conf
-  ```
-  - If you want TeslaBox to prefer your home network, then your USB access point, then your mobile hotspot, configuration should be:
+10. Setup other Wifis with using ```nmtui``` (if you will use other than the one you setup when burning the SD) 
 
-  ```
-   network={
-     ssid="my_home_wifi_name"
-     psk="my_home_wifi_password"
-     priority=3
-     id_str="home"
-   }
-
-   network={
-     ssid="my_usb_ap_wifi_name"
-     psk="my_usb_ap_wifi_password"
-     priority=2
-     id_str="ap"
-   }
-
-   network={
-     ssid="my_hotspot_wifi_name"
-     psk="my_hotspot_wifi_password"
-     priority=1
-     id_str="hotspot"
-   }
-  ```
 11. Allocate USB space with all available storage (minus 10GB, or more if you plan on using TeslaMate):
    ```
    mkdir -p /mnt/usb
@@ -164,21 +137,21 @@ New: TeslaBox can also run [TeslaMate.](https://github.com/adriankumpf/teslamate
   tailscale up
   ```
 
-15. To avoid connectivity issues after running Teslabox for a long time, "Disable key expiry" on each device in your Tailscale network (thanks @genadyo)
+1.  To avoid connectivity issues after running Teslabox for a long time, "Disable key expiry" on each device in your Tailscale network (thanks @genadyo)
 
-16. Download and install TeslaBox and packages:
+2.  Download and install TeslaBox and packages:
    ```
    cd /root
    mkdir -p /root/teslabox
-   curl -o main.zip https://codeload.github.com/mluggy/teslabox/zip/refs/heads/main
+   curl -o main.zip https://codeload.github.com/jheredianet/teslabox/zip/refs/heads/feature_S3_for_other_providers
    unzip -o main.zip
-   cp -r teslabox-main/* teslabox
-   rm -rf teslabox-main
+   cp -r teslabox-feature_S3_for_other_providers/* teslabox
+   rm -rf teslabox-feature_S3_for_other_providers
    cd teslabox
    npm install --production
    npm prune
    ```
-17. Finalize the TeslaBox service:
+3.  Finalize the TeslaBox service:
   - First, create the service file:
   ```
   nano /lib/systemd/system/teslabox.service
