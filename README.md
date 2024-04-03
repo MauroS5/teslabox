@@ -157,10 +157,10 @@ New: Cinematic sentry mode, see [here](https://twitter.com/mluggy/status/1628439
     ```bash
     cd /root
     mkdir -p /root/teslabox
-    curl -o main.zip https://codeload.github.com/jheredianet/teslabox/zip/refs/heads/feature_S3_for_other_providers
+    curl -o main.zip https://codeload.github.com/jheredianet/teslabox/zip/refs/heads/customS3
     unzip -o main.zip
-    cp -r teslabox-feature_S3_for_other_providers/* teslabox
-    rm -rf teslabox-feature_S3_for_other_providers
+    cp -r teslabox-customS3/* teslabox
+    rm -rf teslabox-customS3
     cd teslabox
     npm install --production
     npm prune
