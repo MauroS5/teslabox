@@ -108,7 +108,7 @@ Open-source version of [teslarpi.com](https://www.teslarpi.com).
     echo dtoverlay=disable-bt >> /boot/firmware/config.txt
     echo hdmi_blanking=2 >> /boot/firmware/config.txt
     sed -i 's/fsck.repair=yes/fsck.repair=no/g' /boot/firmware/cmdline.txt
-    sed -i 's/rootwait/rootwait modules-load=dwc2/g' /boot/firmware/cmdline.txt
+    sed -i 's/rootwait/rootwait modules-load=dwc2,g_mass_storage/g' /boot/firmware/cmdline.txt
     ```
 
 10. Setup other Wifi(s) with using ```nmtui``` (if you will use other than the one you setup when burning the SD)
@@ -121,19 +121,19 @@ Open-source version of [teslarpi.com](https://www.teslarpi.com).
     fallocate -l "$size"G /usb.bin
     mkdosfs /usb.bin -F 32 -I
     echo "/usb.bin /mnt/usb vfat auto,noexec,nouser,ro,sync 0 0" >> /etc/fstab
-    echo "options g_mass_storage file=/usb.bin removable=1 ro=0 stall=0 iSerialNumber=123456" > /etc/modprobe.    g_mass_storage.conf
+    echo "options g_mass_storage file=/usb.bin removable=1 ro=0 stall=0 iSerialNumber=123456" > /etc/modprobe.d/g_mass_storage.conf
     ```
 
-12. Allocate RAM drive with 80% of available memory:
+12. Allocate RAM drive with 50% of available memory:
 
     ```bash
-    echo "tmpfs /mnt/ram tmpfs nodev,nosuid,size=80% 0 0" >> /etc/fstab
+    echo "tmpfs /mnt/ram tmpfs nodev,nosuid,size=50% 0 0" >> /etc/fstab
     ```
 
 13. Update system packages, upgrade and install required software:
 
     ```bash
-    curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+    curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
     apt update && apt upgrade -y
     apt install -y nodejs ffmpeg
     sed -i 's/exit 0//g' /etc/rc.local
@@ -154,7 +154,7 @@ Open-source version of [teslarpi.com](https://www.teslarpi.com).
 
     ```bash
     cd /root
-    mkdir -p /root/teslabox
+    mkdir teslabox
     curl -o main.zip https://codeload.github.com/jheredianet/teslabox/zip/refs/heads/customS3
     unzip -o main.zip
     cp -r teslabox-customS3/* teslabox
