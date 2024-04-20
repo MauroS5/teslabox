@@ -127,6 +127,7 @@ Open-source version of [teslarpi.com](https://www.teslarpi.com).
 12. Allocate RAM drive with 50% of available memory:
 
     ```bash
+    mkdir -p /mnt/ram
     echo "tmpfs /mnt/ram tmpfs nodev,nosuid,size=50% 0 0" >> /etc/fstab
     ```
 
