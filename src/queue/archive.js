@@ -200,12 +200,28 @@ exports.start = (cb) => {
                 command += `[1]scale=${largeWidth}:${largeHeight},pad=${overlayWidth}:${largeHeight} [front]; [2]scale=${smallWidth}:${smallHeight} [right]; [3]scale=${smallWidth}:${smallHeight} [back]; [4]scale=${smallWidth}:${smallHeight} [left]; [front][back] overlay=${largeWidth}:0 [fb]; [fb][left] overlay=${largeWidth}:${smallHeight} [fbl]; [fbl][right] overlay=${largeWidth}:${smallHeight * 2}`
                 break
 
-              case 'right':
+              case 'right_repeater':
+                command += `[1]scale=${smallWidth}:${smallHeight} [front]; [2]scale=${largeWidth}:${largeHeight},pad=${overlayWidth}:${largeHeight} [right]; [3]scale=${smallWidth}:${smallHeight} [back]; [4]scale=${smallWidth}:${smallHeight} [left]; [right][left] overlay=${largeWidth}:0 [rl]; [rl][front] overlay=${largeWidth}:${smallHeight} [rlf]; [rlf][back] overlay=${largeWidth}:${smallHeight * 2}`
+                break
+
+              case 'right_pilar':
                 command += `[1]scale=${smallWidth}:${smallHeight} [front]; [2]scale=${largeWidth}:${largeHeight},pad=${overlayWidth}:${largeHeight} [right]; [3]scale=${smallWidth}:${smallHeight} [back]; [4]scale=${smallWidth}:${smallHeight} [left]; [right][left] overlay=${largeWidth}:0 [rl]; [rl][front] overlay=${largeWidth}:${smallHeight} [rlf]; [rlf][back] overlay=${largeWidth}:${smallHeight * 2}`
                 break
 
               case 'back':
                 command += `[1]scale=${smallWidth}:${smallHeight} [front]; [2]scale=${smallWidth}:${smallHeight} [right]; [3]scale=${largeWidth}:${largeHeight},pad=${overlayWidth}:${largeHeight} [back]; [4]scale=${smallWidth}:${smallHeight} [left]; [back][front] overlay=${largeWidth}:0 [bf]; [bf][left] overlay=${largeWidth}:${smallHeight} [bfl]; [bfl][right] overlay=${largeWidth}:${smallHeight * 2}`
+                break
+
+              case 'left_repeater':
+                command += `[1]scale=${smallWidth}:${smallHeight} [front]; [2]scale=${smallWidth}:${smallHeight} [right]; [3]scale=${smallWidth}:${smallHeight} [back]; [4]scale=${largeWidth}:${largeHeight},pad=${overlayWidth}:${largeHeight} [left]; [left][right] overlay=${largeWidth}:0 [lr]; [lr][front] overlay=${largeWidth}:${smallHeight} [lrf]; [lrf][back] overlay=${largeWidth}:${smallHeight * 2}`
+                break
+
+              case 'left_pilar':
+                command += `[1]scale=${smallWidth}:${smallHeight} [front]; [2]scale=${smallWidth}:${smallHeight} [right]; [3]scale=${smallWidth}:${smallHeight} [back]; [4]scale=${largeWidth}:${largeHeight},pad=${overlayWidth}:${largeHeight} [left]; [left][right] overlay=${largeWidth}:0 [lr]; [lr][front] overlay=${largeWidth}:${smallHeight} [lrf]; [lrf][back] overlay=${largeWidth}:${smallHeight * 2}`
+                break
+
+              case 'right':
+                command += `[1]scale=${smallWidth}:${smallHeight} [front]; [2]scale=${largeWidth}:${largeHeight},pad=${overlayWidth}:${largeHeight} [right]; [3]scale=${smallWidth}:${smallHeight} [back]; [4]scale=${smallWidth}:${smallHeight} [left]; [right][left] overlay=${largeWidth}:0 [rl]; [rl][front] overlay=${largeWidth}:${smallHeight} [rlf]; [rlf][back] overlay=${largeWidth}:${smallHeight * 2}`
                 break
 
               case 'left':

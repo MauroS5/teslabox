@@ -177,7 +177,7 @@ exports.start = (cb) => {
                       return cb(err)
                     }
 
-                    event.angle = ['3', '5'].includes(event.camera) ? 'left' : ['4', '6'].includes(event.camera) ? 'right' : event.camera === '7' ? 'back' : 'front'
+                    event.angle = ['3', '5'].includes(event.camera) ? 'left_repeater' : ['4', '6'].includes(event.camera) ? 'right_repeater' : event.camera === '7' ? 'back' : event.camera === '8' ? 'left_pilar' : event.camera === '9' ? 'right_pilar' : 'front'
 
                     if (eventType === 'sentry' && sentryIgnoreAngles.includes(event.angle)) {
                       return cb()
@@ -356,7 +356,13 @@ const umount = (cb) => {
 }
 
 const getAngle = (filename) => {
-  return filename.includes('-front') ? 'front' : filename.includes('-right') ? 'right' : filename.includes('-back') ? 'back' : filename.includes('-left') ? 'left' : undefined
+  if (filename.includes('-front')) return 'front'
+  if (filename.includes('-back')) return 'back'
+  if (filename.includes('-right_pilar')) return 'right_pilar'
+  if (filename.includes('-left_pilar')) return 'left_pilar'
+  if (filename.includes('-right_repeater') || filename.includes('-right')) return 'right_repeater'
+  if (filename.includes('-left_repeater') || filename.includes('-left')) return 'left_repeater'
+  return undefined
 }
 
 const getSpace = (cb) => {
