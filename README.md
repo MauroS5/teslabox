@@ -156,10 +156,10 @@ Open-source version of [teslarpi.com](https://www.teslarpi.com).
     ```bash
     cd /root
     mkdir teslabox
-    curl -o main.zip https://codeload.github.com/jheredianet/teslabox/zip/refs/heads/customS3
+    curl -o main.zip https://codeload.github.com/MauroS5/teslabox/zip/refs/heads/master
     unzip -o main.zip
-    cp -r teslabox-customS3/* teslabox
-    rm -rf teslabox-customS3
+    cp -r teslabox-master/* teslabox
+    rm -rf teslabox-master
     cd teslabox
     npm install --production
     npm prune
